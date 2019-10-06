@@ -1,0 +1,5 @@
+weekend
+*.o
+*.d
+*.dSYM
+*.dSYM/*
