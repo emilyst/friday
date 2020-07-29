@@ -7,21 +7,23 @@ TARGETDIR = bin
 SRCEXT    = c
 OBJEXT    = o
 
-INC       = -I$(INCDIR) -I/usr/local/include
-CFLAGS    = -Og -ggdb
+INC      += -I$(INCDIR) -I/usr/local/include
+
+CFLAGS   += -Og -ggdb
 CFLAGS   += -std=c11
 CFLAGS   += -MMD
 CFLAGS   += -D_FORTIFY_SOURCE -D_GNU_SOURCE
 CFLAGS   += -fms-extensions -Wno-microsoft-anon-tag
 CFLAGS   += -Wall -Werror -Wextra -Wpedantic -pedantic-errors
-CFLAGS   += -Wundef -Wuninitialized -Wunused
+CFLAGS   += -Wundef -Wuninitialized -Wno-unused
 CFLAGS   += -Wswitch -Wswitch-default -Wswitch-enum
 CFLAGS   += -Wmissing-noreturn
 CFLAGS   += -Wvla -Wdouble-promotion -Wpointer-sign -Wsign-compare -Wsign-conversion
 CFLAGS   += -Wstrict-prototypes -Wredundant-decls
 CFLAGS   += -fstack-protector -Wstack-protector -Wvarargs
 CFLAGS   += -fstrict-aliasing
-LDFLAGS   = -L/usr/local/lib -lm
+
+LDFLAGS  += -L/usr/local/lib -lm
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)

@@ -5,4 +5,4 @@
 
 
 void battle(player *, enemy *);
-int prompt(void);
+action *prompt(player *, enemy *);

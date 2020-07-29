@@ -13,46 +13,31 @@
 
 void battle(player *player, enemy *enemy) {
   while (player->hp > 0 && enemy->hp > 0) {
-    print("%s: %d", player->name, player->hp);
-    print("%s: %d", enemy->name,  enemy->hp);
+    int count_of_attacks = character_attacks_count((character *) player);
+    int count_of_spells = character_spells_count((character *) player);
+    int count_of_choices = count_of_attacks + count_of_spells;
 
-    int count_of_attacks;
-    for (int i = 0; player->attacks[i] != NULL; count_of_attacks = ++i) {
-      print("%d: %s (%d power)",
-            i + 1, player->attacks[i]->name,
-            player->attacks[i]->power);
-    }
+    action *a = prompt(player, enemy);
 
-    int count_of_spells;
-    for (int i = 0; player->spells[i] != NULL; count_of_spells = ++i) {
-      print("%d: %s (%d power / %d cost)",
-            count_of_attacks + i + 1,
-            player->spells[i]->name,
-            player->spells[i]->power,
-            player->spells[i]->cost);
-    }
-
-    int choice = prompt();
-
-    if (choice > 0 && choice <= count_of_attacks) {
-      int damage = attack_calculate_damage((character *) player,
-                                           (character *) enemy,
-                                           player->attacks[choice - 1]);
-      print("%s attacked using %s!", player->name, player->attacks[choice - 1]->name);
-      print("%s took %d damage!", enemy->name, damage);
-      enemy->hp -= damage;
-    } else if (choice > count_of_attacks && choice <= count_of_spells + count_of_attacks) {
-      int damage = attack_calculate_damage((character *) player,
-                                           (character *) enemy,
-                                           (attack *) player->spells[choice - count_of_attacks - 1]);
-      print("%s attacked using %s!",
-            player->name,
-            player->spells[choice - count_of_attacks - 1]->name);
-      print("%s took %d damage!", enemy->name, damage);
-      enemy->hp -= damage;
-    } else {
-      print("Invalid choice!");
-    }
+    /* if (choice > 0 && choice <= count_of_attacks) { */
+    /*   int damage = attack_calculate_damage((character *) player, */
+    /*                                        (character *) enemy, */
+    /*                                        player->attacks[choice - 1]); */
+    /*   print("%s attacked using %s!", player->name, player->attacks[choice - 1]->name); */
+    /*   print("%s took %d damage!", enemy->name, damage); */
+    /*   enemy->hp -= damage; */
+    /* } else if (choice > count_of_attacks && choice <= count_of_choices) { */
+    /*   int damage = attack_calculate_damage((character *) player, */
+    /*                                        (character *) enemy, */
+    /*                                        (attack *) player->spells[choice - count_of_attacks - 1]); */
+    /*   print("%s attacked using %s!", */
+    /*         player->name, */
+    /*         player->spells[choice - count_of_attacks - 1]->name); */
+    /*   print("%s took %d damage!", enemy->name, damage); */
+    /*   enemy->hp -= damage; */
+    /* } else { */
+    /*   print("Invalid choice!"); */
+    /* } */
   }
 
   if (player->hp > 0) {
@@ -67,11 +52,41 @@ void battle(player *player, enemy *enemy) {
   }
 }
 
-int prompt() {
+action *prompt(player *player, enemy *enemy) {
+  print("%s: %d HP / %d MP",
+        player->name,
+        player->hp,
+        player->mp);
+  print("%s: %d HP / %d MP",
+        enemy->name,
+        enemy->hp,
+        enemy->mp);
+
+  int count_of_attacks = character_attacks_count((character *) player);
+
+  for (int i = 0; player->attacks[i] != NULL; i++) {
+    print("%d: %s (%d power)",
+          i + 1, player->attacks[i]->name,
+          player->attacks[i]->power);
+  }
+
+  for (int i = 0; player->spells[i] != NULL; i++) {
+    print("%d: %s (%d power / %d cost)",
+          count_of_attacks + i + 1,
+          player->spells[i]->name,
+          player->spells[i]->power,
+          player->spells[i]->cost);
+  }
+
   printf("> ");
 
-  char buffer[1];
-  buffer[0] = getchar();
+  int input = getchar();
+  if (input == EOF || input == '\n' || input == '\0') {
+    putchar('\n');
+    exit(0);
+  }
   while(getchar() != '\n');
-  return atoi(buffer);
+
+  /* return atoi((char *) &input); */
+  return (action *) player->attacks[0];
 }

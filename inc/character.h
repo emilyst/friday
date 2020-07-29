@@ -26,8 +26,8 @@ typedef struct character {
       evasion,
       luck,
       accuracy;
-  struct attack **attacks;
   struct spell **spells;
+  struct attack **attacks;
 } character;
 
 void character_print_attributes(const character *);

@@ -22,27 +22,27 @@ int main(void) {
     .evasion  = 10,
     .luck     = 10,
     .accuracy = 10,
+    .attacks = (attack*[]) {
+      &((attack) {
+        .name  = "Hack",
+        .power = 1,
+      }),
+      &((attack) {
+        .name  = "Slash",
+        .power = 2,
+      }),
+      NULL,
+    },
     .spells   = (spell*[]) {
       &((spell) {
         .name  = "Burn",
-        .power = 10,
+        .power = 5,
         .cost  = 2,
       }),
       &((spell) {
         .name  = "Freeze",
-        .power = 10,
+        .power = 5,
         .cost  = 2,
-      }),
-      NULL,
-    },
-    .attacks = (attack*[]) {
-      &((attack) {
-        .name  = "Hack",
-        .power = 50,
-      }),
-      &((attack) {
-        .name  = "Slash",
-        .power = 70,
       }),
       NULL,
     },
@@ -65,7 +65,7 @@ int main(void) {
     .spells    = (spell*[]) {
       &((spell) {
         .name  = "Breath",
-        .power = 50,
+        .power = 10,
         .cost  = 2,
       }),
       NULL,
@@ -73,11 +73,11 @@ int main(void) {
     .attacks   = (attack*[]) {
       &((attack) {
         .name  = "Bite",
-        .power = 30,
+        .power = 5,
       }),
       &((attack) {
         .name  = "Claw",
-        .power = 40,
+        .power = 7,
       }),
       NULL,
     },
